@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { BESS_OPTIONS, INVERTER_OPTIONS, INVERTER_DB, BESS_DB } from '../../data/sources/HardwareDatabase';
+import { execute as optimizeSystem } from '../../domain/usecases/OptimizeSystem';
 
 export const useSolarConfiguration = (initialParams, initialTechParams) => {
     // --- STATE SYSTEM CONFIG ---
@@ -12,6 +13,7 @@ export const useSolarConfiguration = (initialParams, initialTechParams) => {
     const [bessKwh, setBessKwh] = useState(0);
     const [bessMaxPower, setBessMaxPower] = useState(0);
     const [isGridCharge, setIsGridCharge] = useState(false);
+    const [bessStrategy, setBessStrategy] = useState('self-consumption'); // 'self-consumption' | 'peak-shaving'
 
     // --- STATE PARAMETERS ---
     const [params, setParams] = useState(initialParams);
@@ -20,9 +22,12 @@ export const useSolarConfiguration = (initialParams, initialTechParams) => {
 
 
     // Auto Select Inverter
-    const handleAutoSelectInverter = useCallback(() => {
+    // Auto Suggest Configuration (Inverter + BESS)
+    const handleMagicSuggest = useCallback(() => {
         if (targetKwp <= 0) return;
-        const targetAC = targetKwp / 1.25; // DC/AC ratio ~ 1.25
+
+        // 1. Select Inverter (DC/AC ~ 1.25)
+        const targetAC = targetKwp / 1.25;
         const bestInv = INVERTER_DB.reduce((prev, curr) =>
             Math.abs(curr.acPower - targetAC) < Math.abs(prev.acPower - targetAC) ? curr : prev
         );
@@ -34,19 +39,82 @@ export const useSolarConfiguration = (initialParams, initialTechParams) => {
             setInv2Id('');
             setInv2Qty(0);
         }
-    }, [targetKwp]);
+
+        // 2. Suggest BESS (approx 20% of Solar Capacity, 2h duration)
+        // ONLY suggest if currently 'custom' with 0 capacity (initial state)
+        if (selectedBess === 'custom' && bessKwh === 0) {
+            const suggestedKwh = Math.round(targetKwp * 0.2); // 20% penetration
+            setBessKwh(suggestedKwh);
+            setBessMaxPower(Math.round(suggestedKwh / 2)); // 2-hour system
+        }
+    }, [targetKwp, selectedBess, bessKwh]);
+
+    // Handle System Optimization
+    const handleOptimize = useCallback((processedData, prices, financialParams) => {
+        if (!processedData || processedData.length === 0) return;
+
+        const result = optimizeSystem(processedData, prices, financialParams, techParams);
+        if (result && result.best) {
+            const { kwp, bessKwh: bestBessKwh, bessKw: bestBessKw } = result.best;
+
+            // Apply recommended Solar size
+            setTargetKwp(kwp);
+
+            // Apply recommended BESS size
+            setSelectedBess('custom');
+            setBessKwh(bestBessKwh);
+            setBessMaxPower(bestBessKw);
+
+            // Auto-select inverters for the new Solar size
+            // Note: We can simplify this by just calling handleMagicSuggest 
+            // but we need to ensure targetKwp state update is processed.
+            // For now, let's just let the user click Magic Suggest if needed or just do it here.
+            const targetAC = kwp / 1.25;
+            const bestInv = INVERTER_DB.reduce((prev, curr) =>
+                Math.abs(curr.acPower - targetAC) < Math.abs(prev.acPower - targetAC) ? curr : prev
+            );
+            if (bestInv) {
+                const qty = Math.ceil(targetAC / bestInv.acPower);
+                setInv1Id(bestInv.id);
+                setInv1Qty(qty);
+                setInv2Id('');
+                setInv2Qty(0);
+            }
+            return result.best;
+        }
+        return null;
+    }, [techParams]);
+
+    // Handle BESS-only Optimization (Fixed Solar Size)
+    const handleOptimizeBess = useCallback((processedData, prices, financialParams) => {
+        if (!processedData || processedData.length === 0) return;
+
+        const result = optimizeSystem(processedData, prices, financialParams, { ...techParams, fixedKwp: targetKwp });
+        if (result && result.best) {
+            const { bessKwh: bestBessKwh, bessKw: bestBessKw } = result.best;
+
+            // Apply recommended BESS size only
+            setSelectedBess('custom');
+            setBessKwh(bestBessKwh);
+            setBessMaxPower(bestBessKw);
+            return result.best;
+        }
+        return null;
+    }, [techParams, targetKwp]);
 
     // Handle BESS Selection
     const handleBessSelect = useCallback((val) => {
         setSelectedBess(val);
+        if (val === 'none') {
+            setBessKwh(0);
+            setBessMaxPower(0);
+            return;
+        }
         // Fix: Lookup from BESS_DB (full object) not BESS_OPTIONS (dropdown label/value)
         const selectedModel = BESS_DB.find(m => m.id === val);
         if (selectedModel) {
             setBessKwh(selectedModel.capacity);
             setBessMaxPower(selectedModel.maxPower);
-        } else if (val === 'custom') {
-            // Keep existing values or reset? User might want to type manual
-            // setBessKwh(0); setBessMaxPower(0); 
         }
     }, []);
 
@@ -70,7 +138,10 @@ export const useSolarConfiguration = (initialParams, initialTechParams) => {
         params, setParams,
         techParams, setTechParams,
         targetKwp, setTargetKwp,
-        handleAutoSelectInverter,
+        handleMagicSuggest,
+        handleOptimize,
+        handleOptimizeBess,
+        bessStrategy, setBessStrategy,
         totalACPower,
         inverterMaxAcKw
     };

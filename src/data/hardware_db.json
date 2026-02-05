@@ -1,0 +1,106 @@
+{
+  "inverters": [
+    {
+      "model": "SUN2000-10KTL-LC0",
+      "power_kw": 16,
+      "specs": {
+        "max_input_voltage": 10
+      }
+    },
+    {
+      "model": "SUN2000-15KTL-M5",
+      "power_kw": 20,
+      "specs": {
+        "max_input_voltage": 15
+      }
+    },
+    {
+      "model": "SUN2000-20KTL-M5",
+      "power_kw": 20,
+      "specs": {
+        "max_input_voltage": 20
+      }
+    },
+    {
+      "model": "SUN2000-30KTL-M3",
+      "power_kw": 26,
+      "specs": {
+        "max_input_voltage": 30
+      }
+    },
+    {
+      "model": "SUN2000-40KTL-M3",
+      "power_kw": 26,
+      "specs": {
+        "max_input_voltage": 40
+      }
+    },
+    {
+      "model": "SUN2000-50KTL-M3",
+      "power_kw": 20,
+      "specs": {
+        "max_input_voltage": 50
+      }
+    },
+    {
+      "model": "SUN2000-100KTL-M1",
+      "power_kw": 26,
+      "specs": {
+        "max_input_voltage": 100
+      }
+    },
+    {
+      "model": "SUN2000-12KTL-M5",
+      "power_kw": 20,
+      "specs": {
+        "max_input_voltage": 12
+      }
+    },
+    {
+      "model": "SUN2000-10KTL-M1",
+      "power_kw": 11,
+      "specs": {
+        "max_input_voltage": 10
+      }
+    },
+    {
+      "model": "SUN2000-12K-MAP0",
+      "power_kw": 16,
+      "specs": {
+        "max_input_voltage": 12
+      }
+    },
+    {
+      "model": "SUN2000-10K-MAP0",
+      "power_kw": 16,
+      "specs": {
+        "max_input_voltage": 10
+      }
+    },
+    {
+      "model": "SUN2000-8K-MAP0",
+      "power_kw": 16,
+      "specs": {
+        "max_input_voltage": 8
+      }
+    }
+  ],
+  "panels": [
+    {
+      "model": "CHSM72M-HC-550W",
+      "power": 13
+    },
+    {
+      "model": "CHSM72M-HC-555W",
+      "power": 13.13
+    },
+    {
+      "model": "CHSM78M-HC-590W",
+      "power": 12.99
+    },
+    {
+      "model": "HSM-TH665W",
+      "power": 18.02
+    }
+  ]
+}

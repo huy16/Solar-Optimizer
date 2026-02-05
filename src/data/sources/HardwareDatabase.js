@@ -27,6 +27,7 @@ export const INVERTER_DB = [
 ];
 
 export const BESS_DB = [
+    { id: 'none', name: 'Không dùng (None)', capacity: 0, maxPower: 0 },
     { id: 'custom', name: 'Tùy chỉnh (Custom)', capacity: 0, maxPower: 0 },
     { id: 'LUNA-97', name: 'Huawei LUNA2000-97KWH-1H1', capacity: 96.8, maxPower: 92, desc: 'Smart String ESS (97kWh)' },
     { id: 'LUNA-129', name: 'Huawei LUNA2000-129KWH-2H1', capacity: 129.0, maxPower: 100, desc: 'Smart String ESS (129kWh)' },

@@ -1,0 +1,689 @@
+[
+  {
+    "id": "vietnam_average",
+    "name": "Việt Nam",
+    "peakSunHours": 3.8,
+    "yield_yearly": 1387,
+    "monthly_distribution": []
+  },
+  {
+    "id": "an_giang",
+    "name": "An Giang",
+    "peakSunHours": 3.72,
+    "yield_yearly": 1356,
+    "monthly_distribution": [
+      142,
+      125,
+      130,
+      139,
+      123,
+      104,
+      99,
+      103,
+      90,
+      98,
+      97,
+      106
+    ]
+  },
+  {
+    "id": "bac_ninh",
+    "name": "Bắc Ninh",
+    "peakSunHours": 2.55,
+    "yield_yearly": 930,
+    "monthly_distribution": [
+      82,
+      32,
+      68,
+      80,
+      86,
+      91,
+      97,
+      92,
+      87,
+      87,
+      74,
+      54
+    ]
+  },
+  {
+    "id": "ca_mau",
+    "name": "Cà Mau",
+    "peakSunHours": 3.53,
+    "yield_yearly": 1289,
+    "monthly_distribution": [
+      119,
+      124,
+      138,
+      145,
+      122,
+      96,
+      90,
+      95,
+      85,
+      88,
+      89,
+      98
+    ]
+  },
+  {
+    "id": "can_tho",
+    "name": "Cần Thơ",
+    "peakSunHours": 3.5,
+    "yield_yearly": 1279,
+    "monthly_distribution": [
+      123,
+      123,
+      133,
+      141,
+      120,
+      98,
+      92,
+      82,
+      83,
+      88,
+      84,
+      96
+    ]
+  },
+  {
+    "id": "cao_bang",
+    "name": "Cao Bằng",
+    "peakSunHours": 3.04,
+    "yield_yearly": 1109,
+    "monthly_distribution": [
+      86,
+      39,
+      99,
+      106,
+      98,
+      79,
+      110,
+      111,
+      109,
+      103,
+      92,
+      77
+    ]
+  },
+  {
+    "id": "da_nang",
+    "name": "Đà Nẵng",
+    "peakSunHours": 3.8,
+    "yield_yearly": 1386,
+    "monthly_distribution": [
+      89,
+      73,
+      113,
+      138,
+      155,
+      147,
+      140,
+      134,
+      119,
+      104,
+      91,
+      83
+    ]
+  },
+  {
+    "id": "dak_lak",
+    "name": "Đắk Lắk",
+    "peakSunHours": 3.99,
+    "yield_yearly": 1455,
+    "monthly_distribution": [
+      120,
+      102,
+      137,
+      155,
+      146,
+      129,
+      128,
+      129,
+      118,
+      107,
+      94,
+      90
+    ]
+  },
+  {
+    "id": "dien_bien",
+    "name": "Điện Biên",
+    "peakSunHours": 3.69,
+    "yield_yearly": 1346,
+    "monthly_distribution": [
+      120,
+      105,
+      123,
+      115,
+      123,
+      100,
+      114,
+      111,
+      117,
+      115,
+      106,
+      97
+    ]
+  },
+  {
+    "id": "dong_nai",
+    "name": "Đồng Nai",
+    "peakSunHours": 4.12,
+    "yield_yearly": 1505,
+    "monthly_distribution": [
+      146,
+      127,
+      157,
+      150,
+      140,
+      111,
+      113,
+      118,
+      105,
+      114,
+      113,
+      111
+    ]
+  },
+  {
+    "id": "dong_thap",
+    "name": "Đồng Tháp",
+    "peakSunHours": 3.75,
+    "yield_yearly": 1370,
+    "monthly_distribution": [
+      135,
+      124,
+      139,
+      143,
+      126,
+      106,
+      106,
+      107,
+      93,
+      98,
+      95,
+      98
+    ]
+  },
+  {
+    "id": "gia_lai",
+    "name": "Gia Lai",
+    "peakSunHours": 4.07,
+    "yield_yearly": 1485,
+    "monthly_distribution": [
+      128,
+      106,
+      143,
+      154,
+      148,
+      128,
+      133,
+      126,
+      119,
+      108,
+      97,
+      95
+    ]
+  },
+  {
+    "id": "ha_noi",
+    "name": "Hà Nội",
+    "peakSunHours": 2.62,
+    "yield_yearly": 955,
+    "monthly_distribution": [
+      82,
+      33,
+      68,
+      83,
+      102,
+      98,
+      101,
+      93,
+      87,
+      84,
+      71,
+      53
+    ]
+  },
+  {
+    "id": "ha_tinh",
+    "name": "Hà Tĩnh",
+    "peakSunHours": 3.22,
+    "yield_yearly": 1176,
+    "monthly_distribution": [
+      86,
+      45,
+      80,
+      114,
+      132,
+      141,
+      135,
+      118,
+      96,
+      83,
+      76,
+      70
+    ]
+  },
+  {
+    "id": "hai_phong",
+    "name": "Hải Phòng",
+    "peakSunHours": 2.64,
+    "yield_yearly": 965,
+    "monthly_distribution": [
+      82,
+      33,
+      64,
+      72,
+      88,
+      99,
+      105,
+      96,
+      90,
+      91,
+      80,
+      65
+    ]
+  },
+  {
+    "id": "hue",
+    "name": "Huế",
+    "peakSunHours": 3.49,
+    "yield_yearly": 1275,
+    "monthly_distribution": [
+      83,
+      69,
+      95,
+      121,
+      142,
+      149,
+      137,
+      135,
+      109,
+      84,
+      81,
+      70
+    ]
+  },
+  {
+    "id": "hung_yen",
+    "name": "Hưng Yên",
+    "peakSunHours": 2.69,
+    "yield_yearly": 981,
+    "monthly_distribution": [
+      79,
+      31,
+      61,
+      77,
+      96,
+      104,
+      110,
+      100,
+      90,
+      91,
+      79,
+      63
+    ]
+  },
+  {
+    "id": "khanh_hoa",
+    "name": "Khánh Hòa",
+    "peakSunHours": 4.28,
+    "yield_yearly": 1563,
+    "monthly_distribution": [
+      120,
+      100,
+      137,
+      160,
+      148,
+      144,
+      144,
+      150,
+      135,
+      121,
+      104,
+      100
+    ]
+  },
+  {
+    "id": "lai_chau",
+    "name": "Lai Châu",
+    "peakSunHours": 3.52,
+    "yield_yearly": 1285,
+    "monthly_distribution": [
+      111,
+      98,
+      119,
+      112,
+      120,
+      93,
+      109,
+      110,
+      110,
+      108,
+      103,
+      92
+    ]
+  },
+  {
+    "id": "lam_dong",
+    "name": "Lâm Đồng",
+    "peakSunHours": 4.4,
+    "yield_yearly": 1605,
+    "monthly_distribution": [
+      147,
+      127,
+      161,
+      157,
+      139,
+      116,
+      125,
+      135,
+      123,
+      128,
+      121,
+      126
+    ]
+  },
+  {
+    "id": "lang_son",
+    "name": "Lạng Sơn",
+    "peakSunHours": 2.8,
+    "yield_yearly": 1021,
+    "monthly_distribution": [
+      86,
+      33,
+      75,
+      87,
+      86,
+      90,
+      112,
+      101,
+      99,
+      97,
+      85,
+      70
+    ]
+  },
+  {
+    "id": "lao_cai",
+    "name": "Lào Cai",
+    "peakSunHours": 3.06,
+    "yield_yearly": 1118,
+    "monthly_distribution": [
+      90,
+      56,
+      99,
+      93,
+      107,
+      92,
+      108,
+      106,
+      101,
+      96,
+      90,
+      80
+    ]
+  },
+  {
+    "id": "nghe_an",
+    "name": "Nghệ An",
+    "peakSunHours": 3.46,
+    "yield_yearly": 1263,
+    "monthly_distribution": [
+      105,
+      60,
+      94,
+      112,
+      134,
+      138,
+      131,
+      120,
+      104,
+      99,
+      88,
+      78
+    ]
+  },
+  {
+    "id": "ninh_binh",
+    "name": "Ninh Bình",
+    "peakSunHours": 2.91,
+    "yield_yearly": 1063,
+    "monthly_distribution": [
+      83,
+      33,
+      64,
+      89,
+      110,
+      114,
+      117,
+      109,
+      97,
+      94,
+      83,
+      70
+    ]
+  },
+  {
+    "id": "phu_tho",
+    "name": "Phú Thọ",
+    "peakSunHours": 2.86,
+    "yield_yearly": 1045,
+    "monthly_distribution": [
+      88,
+      38,
+      78,
+      88,
+      104,
+      100,
+      112,
+      103,
+      97,
+      93,
+      80,
+      64
+    ]
+  },
+  {
+    "id": "quang_ngai",
+    "name": "Quảng Ngãi",
+    "peakSunHours": 4.1,
+    "yield_yearly": 1498,
+    "monthly_distribution": [
+      125,
+      111,
+      145,
+      153,
+      146,
+      122,
+      135,
+      126,
+      121,
+      110,
+      103,
+      101
+    ]
+  },
+  {
+    "id": "quang_ninh",
+    "name": "Quảng Ninh",
+    "peakSunHours": 2.69,
+    "yield_yearly": 982,
+    "monthly_distribution": [
+      87,
+      37,
+      73,
+      73,
+      76,
+      94,
+      103,
+      98,
+      98,
+      93,
+      84,
+      66
+    ]
+  },
+  {
+    "id": "quang_tri",
+    "name": "Quảng Trị",
+    "peakSunHours": 3.36,
+    "yield_yearly": 1225,
+    "monthly_distribution": [
+      78,
+      56,
+      85,
+      119,
+      138,
+      150,
+      137,
+      126,
+      102,
+      84,
+      79,
+      71
+    ]
+  },
+  {
+    "id": "son_la",
+    "name": "Sơn La",
+    "peakSunHours": 3.58,
+    "yield_yearly": 1308,
+    "monthly_distribution": [
+      113,
+      86,
+      117,
+      109,
+      126,
+      108,
+      124,
+      113,
+      109,
+      108,
+      101,
+      94
+    ]
+  },
+  {
+    "id": "tay_ninh",
+    "name": "Tây Ninh",
+    "peakSunHours": 3.85,
+    "yield_yearly": 1407,
+    "monthly_distribution": [
+      139,
+      126,
+      143,
+      140,
+      133,
+      116,
+      106,
+      109,
+      96,
+      102,
+      97,
+      100
+    ]
+  },
+  {
+    "id": "thai_nguyen",
+    "name": "Thái Nguyên",
+    "peakSunHours": 2.62,
+    "yield_yearly": 955,
+    "monthly_distribution": [
+      80,
+      31,
+      80,
+      83,
+      91,
+      80,
+      102,
+      93,
+      93,
+      89,
+      76,
+      57
+    ]
+  },
+  {
+    "id": "thanh_hoa",
+    "name": "Thanh Hóa",
+    "peakSunHours": 3.2,
+    "yield_yearly": 1169,
+    "monthly_distribution": [
+      98,
+      48,
+      83,
+      103,
+      124,
+      126,
+      124,
+      113,
+      100,
+      95,
+      83,
+      72
+    ]
+  },
+  {
+    "id": "ho_chi_minh",
+    "name": "TP. Hồ Chí Minh",
+    "peakSunHours": 4.02,
+    "yield_yearly": 1467,
+    "monthly_distribution": [
+      135,
+      120,
+      149,
+      147,
+      136,
+      113,
+      116,
+      119,
+      105,
+      111,
+      110,
+      106
+    ]
+  },
+  {
+    "id": "tuyen_quang",
+    "name": "Tuyên Quang",
+    "peakSunHours": 2.88,
+    "yield_yearly": 1050,
+    "monthly_distribution": [
+      81,
+      40,
+      95,
+      97,
+      103,
+      83,
+      103,
+      103,
+      101,
+      95,
+      83,
+      66
+    ]
+  },
+  {
+    "id": "vinh_long",
+    "name": "Vĩnh Long",
+    "peakSunHours": 3.7,
+    "yield_yearly": 1349,
+    "monthly_distribution": [
+      123,
+      127,
+      144,
+      147,
+      125,
+      104,
+      102,
+      105,
+      91,
+      94,
+      92,
+      95
+    ]
+  }
+]

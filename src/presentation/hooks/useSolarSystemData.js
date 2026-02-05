@@ -111,8 +111,8 @@ export const useSolarSystemData = () => {
                 if (!window.XLSX) { alert("Excel Library loading..."); return; }
                 const workbook = window.XLSX.read(arrayBuffer, { type: 'array' });
 
-                // 1. Try to get Metadata from specific sheet
-                const meta = parseGSAMapData(workbook) || {};
+                // 1. Try to get Metadata from specific sheet (now includes dataTypes)
+                const meta = parseGSAMapData(workbook) || { dataTypes: {} };
 
                 // 2. Parse main matrix from ALL sheets
                 let foundProfiles = [];
@@ -120,7 +120,6 @@ export const useSolarSystemData = () => {
 
                 // Priority sheets check
                 const sheetNames = workbook.SheetNames;
-                // sort to put "Map_data" or "Map data" first if exists? No, just loop.
 
                 for (const sheetName of sheetNames) {
                     const ws = workbook.Sheets[sheetName];
@@ -129,23 +128,63 @@ export const useSolarSystemData = () => {
 
                     if (profiles && profiles.length > 0) {
                         foundProfiles = profiles;
-                        // If we found something, we can stop? 
-                        // But maybe distinct data is on different sheets. 
-                        // For now let's take the first valid sheet result to avoid duplicates if sheets are copies.
                         break;
                     }
                     allLogs.push(`Sheet [${sheetName}]: ` + logs.join(' | '));
                 }
 
-                if (foundProfiles.length > 0) {
-                    const newLayers = foundProfiles.map(p => ({
+                // 3. Create multiple layers for each data type in metadata
+                const dataTypes = meta.dataTypes || {};
+                const availableTypes = Object.entries(dataTypes).sort((a, b) => a[1].priority - b[1].priority);
+
+                let finalLayers = [];
+
+                if (foundProfiles.length > 0 && availableTypes.length > 0) {
+                    // Get the base profile (usually DNI or similar)
+                    const baseProfile = foundProfiles[0];
+
+                    // Calculate base profile's annual sum for scaling
+                    let baseAnnualSum = 0;
+                    if (baseProfile.map && baseProfile.map.size > 0) {
+                        baseProfile.map.forEach(val => { baseAnnualSum += val; });
+                        // Monthly keys = 12 months * 24 hours = 288 entries
+                        // Multiply by ~30.4 days to get approximate annual
+                        baseAnnualSum = baseAnnualSum * 30.4;
+                    }
+
+                    // Create a layer for each data type
+                    for (const [typeName, typeData] of availableTypes) {
+                        const scaleFactor = baseAnnualSum > 0 ? typeData.value / baseAnnualSum : 1;
+
+                        // Clone and scale the base map
+                        const scaledMap = new Map();
+                        baseProfile.map.forEach((val, key) => {
+                            scaledMap.set(key, val * scaleFactor);
+                        });
+
+                        finalLayers.push({
+                            map: scaledMap,
+                            source: `GSA ${typeName}`,
+                            title: `${typeData.label} (${typeData.value.toFixed(0)} ${typeData.unit})`,
+                            score: typeData.priority,
+                            meta: { ...meta, dataType: typeName, annualValue: typeData.value },
+                            name: typeName
+                        });
+                    }
+                } else if (foundProfiles.length > 0) {
+                    // Fallback: use found profiles as-is
+                    finalLayers = foundProfiles.map(p => ({
                         ...p,
                         meta: { ...meta, ...p.meta },
                         name: p.title || file.name,
                         title: p.title || `GSA: ${file.name}`
                     }));
-                    setSolarLayers(newLayers);
+                }
+
+                if (finalLayers.length > 0) {
+                    setSolarLayers(finalLayers);
                     setSelectedLayerIndex(0);
+                    setSolarMetadata(meta);
                 } else {
                     alert("Không tìm thấy dữ liệu GSA hợp lệ trong file này.\n\nLogs:\n" + allLogs.join('\n'));
                 }

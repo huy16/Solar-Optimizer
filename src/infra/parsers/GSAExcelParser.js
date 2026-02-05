@@ -1,18 +1,55 @@
 import { generateSolarProfile } from './utils';
 
 export const parseGSAMapData = (workbook) => {
-    const mapSheet = workbook.Sheets['Map data']; if (!mapSheet) return null;
+    const mapSheet = workbook.Sheets['Map_data'] || workbook.Sheets['Map data'];
+    if (!mapSheet) return null;
     const jsonData = window.XLSX.utils.sheet_to_json(mapSheet, { header: 1 });
-    const metadata = {};
+    const metadata = {
+        dataTypes: {} // Store all available data types with their annual values
+    };
+
     jsonData.forEach(row => {
+        if (row.length >= 3) {
+            const key = String(row[1] || row[0]).trim().toLowerCase();
+            const val = parseFloat(row[2]);
+            const unit = String(row[3] || '').trim();
+
+            // Extract annual values for each data type
+            if (key === 'pvout_specific' || key.includes('pvout')) {
+                metadata.dataTypes['PVOUT'] = { value: val, unit: unit || 'kWh/kWp', priority: 1, label: 'PVOUT (Sản lượng điện)' };
+            }
+            else if (key === 'gti_opta' || key.includes('tilted irradiation')) {
+                metadata.dataTypes['GTI'] = { value: val, unit: unit || 'kWh/m²', priority: 2, label: 'GTI (Bức xạ nghiêng tối ưu)' };
+            }
+            else if (key === 'ghi' || key.includes('global horizontal')) {
+                metadata.dataTypes['GHI'] = { value: val, unit: unit || 'kWh/m²', priority: 3, label: 'GHI (Bức xạ ngang)' };
+            }
+            else if (key === 'dni' || key.includes('direct normal')) {
+                metadata.dataTypes['DNI'] = { value: val, unit: unit || 'kWh/m²', priority: 5, label: 'DNI (Bức xạ trực tiếp)' };
+            }
+            else if (key === 'dif' || key.includes('diffuse')) {
+                metadata.dataTypes['DIF'] = { value: val, unit: unit || 'kWh/m²', priority: 6, label: 'DIF (Bức xạ tán xạ)' };
+            }
+            else if (key === 'temp' || key.includes('temperature')) {
+                metadata.temp = val;
+            }
+            else if (key === 'opta' || key.includes('optimum tilt')) {
+                metadata.optimalTilt = val;
+            }
+            else if (key === 'ele' || key.includes('elevation')) {
+                metadata.elevation = val;
+            }
+        }
+        // Also check 2-column rows for site info
         if (row.length >= 2) {
-            const key = String(row[0]).trim().toLowerCase(); const val = row[1];
-            if (key.includes('site name')) metadata['siteName'] = val;
-            else if (key === 'latitude' || key.includes('lat')) metadata['lat'] = val;
-            else if (key === 'longitude' || key.includes('long') || key.includes('lon')) metadata['lon'] = val;
-            else if (key.includes('elevation')) metadata['elevation'] = val;
+            const key = String(row[0]).trim().toLowerCase();
+            const val = row[1];
+            if (key.includes('site name') || key.includes('project')) metadata.siteName = val;
+            else if (key === 'latitude' || key.includes('lat')) metadata.lat = parseFloat(String(val).split('°')[0]) || val;
+            else if (key === 'longitude' || key.includes('long') || key.includes('lon')) metadata.lon = parseFloat(String(val).split('°')[0]) || val;
         }
     });
+
     return metadata;
 };
 

@@ -34,16 +34,21 @@ export const execute = (
     let curtailedPeak = 0; let curtailedNormal = 0; let curtailedOffPeak = 0;
 
     // --- PARSE PARAMS ---
-    const calibrationFactor = params.calibrationFactor || 100;
+    // --- PARSE PARAMS (Robust sanitization) ---
+    const calibrationFactor = isNaN(Number(params.calibrationFactor)) ? 100 : Number(params.calibrationFactor);
     const scaling = calibrationFactor / 100.0;
-    const inverterMaxAcKw = techParams.inverterMaxAcKw || 999999;
-    const gridInjectionPrice = techParams.gridInjectionPrice || 0;
+    const inverterMaxAcKw = isNaN(Number(techParams.inverterMaxAcKw)) ? 999999 : Number(techParams.inverterMaxAcKw);
+    const gridInjectionPrice = isNaN(Number(techParams.gridInjectionPrice)) ? 0 : Number(techParams.gridInjectionPrice);
     const allowGridExport = gridInjectionPrice > 0;
 
-    // --- LOSS FACTORS ---
-    const losses = techParams.losses || { temp: 0, soiling: 0, cable: 0, inverter: 0 };
-    const totalLossPct = (losses.temp || 0) + (losses.soiling || 0) + (losses.cable || 0) + (losses.inverter || 0);
+    // --- LOSS FACTORS (Robust sanitization) ---
+    const losses = techParams.losses || {};
+    const safeLoss = (val) => isNaN(Number(val)) ? 0 : Number(val);
+    const totalLossPct = safeLoss(losses.temp) + safeLoss(losses.soiling) + safeLoss(losses.cable) + safeLoss(losses.inverter);
     const systemDerate = 1 - (totalLossPct / 100);
+
+    // Sanitize System Size
+    const safeSystemSize = isNaN(Number(systemSize)) ? 0 : Number(systemSize);
 
     // --- BESS PARAMS ---
     const CHARGE_EFF = 0.95;
@@ -82,16 +87,18 @@ export const execute = (
         let hourlyChargeFromGrid = 0;
         let hourlyDischarge = 0;
 
-        // 1. Calculate Solar Power (Raw)
-        let solarPowerKw = point.solarUnit * systemSize * scaling * systemDerate;
+        // 1. Calculate Solar Power (Raw) -- Robust Check
+        const safeSolarUnit = isNaN(Number(point.solarUnit)) ? 0 : Number(point.solarUnit);
+        let solarPowerKw = safeSolarUnit * safeSystemSize * scaling * systemDerate;
+        if (isNaN(solarPowerKw)) solarPowerKw = 0;
 
         // 2. Apply Inverter Clipping (AC Limit)
         if (solarPowerKw > inverterMaxAcKw) {
             solarPowerKw = inverterMaxAcKw;
         }
 
-        const solarEnergy = solarPowerKw * timeFactor;
-        const loadPower = point.load;
+        const solarEnergy = isNaN(solarPowerKw) ? 0 : (solarPowerKw * timeFactor);
+        const loadPower = isNaN(Number(point.load)) ? 0 : Number(point.load);
         const loadEnergy = loadPower * timeFactor;
 
         totalLoad += loadEnergy;
@@ -216,7 +223,7 @@ export const execute = (
 
     return {
         systemSize,
-        totalSolarGen,
+        totalSolarGen, // FIX: Match Dashboard expectation (was totalSolar)
         totalCurtailed,
         totalUsed,
         totalExported,
